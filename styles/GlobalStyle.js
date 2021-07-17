@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { theme } from './theme';
+
 const GlobalStyle = createGlobalStyle`
     * {
         padding: 0;
@@ -14,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
         scroll-behavior: smooth;
     }
     body {
-        background-color: #FFF8A2;
+        background-color: ${(props) => theme.color.background};
     }
 `;
 

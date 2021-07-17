@@ -2,5 +2,20 @@
     "menu_slots": "Taille du code secret",
     "menu_difficulty": "Difficulté",
     "menu_easy": "Facile",
-    "menu_hard": "Difficile"
+    "menu_hard": "Difficile",
+    "verify_button": "Vérifier",
+    "success": "Bravo !",
+    "fail": "Dommage",
+    "playing": "Essais restants",
+    "#ffffff": "Blanc",
+    "#000000": "Noir",
+    "#ff0000": "Rouge",
+    "#ffff00": "Jaune",
+    "#00ff00": "Vert",
+    "#0000ff": "Bleu",
+    "#ff8800": "Orange",
+    "#9900ff": "Violet",
+    "#ff00ff": "Rose",
+    "#888888": "Gris",
+    "#0ffff": "Cyan"
 }

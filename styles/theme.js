@@ -14,6 +14,6 @@ export const theme = {
         pink: '#ff00ff',
         grey: '#888888',
         cyan: '#00ffff',
-        background: '#fff8a2'
+        background: '#cfdfc9'
     }
 };

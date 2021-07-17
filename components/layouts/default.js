@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
-import { initReactI18next, useTranslation } from 'react-i18next';
-import { Select } from 'styles/Header.style';
+import { initReactI18next } from 'react-i18next';
+import { Header, Select } from 'styles/Header.style';
 const fr_FR = require('lang/fr_FR.json');
 const en_US = require('lang/en_US.json');
 
@@ -35,13 +35,13 @@ export default function defaultLayout({ children }) {
 
     return (
         <>
-            <header>
+            <Header>
                 {/* eslint-disable-next-line jsx-a11y/no-onchange */}
                 <Select value={lang} onChange={(e) => selectHandler(e)}>
                     <option value="en">English</option>
                     <option value="fr">Français</option>
                 </Select>
-            </header>
+            </Header>
             <main>{children}</main>
         </>
     );

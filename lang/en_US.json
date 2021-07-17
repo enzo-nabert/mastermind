@@ -2,5 +2,20 @@
     "menu_slots": "Secret code length",
     "menu_difficulty": "Difficulty",
     "menu_easy": "Easy",
-    "menu_hard": "Hard"
+    "menu_hard": "Hard",
+    "verify_button": "Verify",
+    "success": "Success",
+    "fail": "Fail",
+    "playing": "Attemps left",
+    "#ffffff" : "White",
+    "#000000" : "Black",
+    "#ff0000" : "Red",
+    "#ffff00": "Yellow",
+    "#00ff00": "Green",
+    "#0000ff": "Blue",
+    "#ff8800": "Orange",
+    "#9900ff": "Purple",
+    "#ff00ff": "Pink",
+    "#888888": "Grey",
+    "#00ffff": "Cyan"
 }

@@ -1,15 +1,19 @@
 import Context from 'components/context/context';
+import DefaultLayout from 'components/layouts/default';
 import { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Board,
+    Code,
+    CodeContainer,
     ColorButton,
     ColorContainer,
+    EndContainer,
+    EndText,
     GameSection,
     Infos,
-    InfosContainer,
     InfosText,
     PlayButton,
-    PlayContainer,
     Row,
     Spot
 } from 'styles/Game/Game.style';
@@ -20,6 +24,8 @@ export default function game() {
     const [spotsColor, setSpotsColor] = useState([]);
     const [lineSelected, setLineSelected] = useState(9);
     const [lineState, setLineState] = useState([]);
+
+    const [gameStatus, setGameStatus] = useState('playing');
 
     const colors = [
         theme.color.black,
@@ -64,13 +70,13 @@ export default function game() {
     }, []);
 
     const [code, setCode] = useState([]);
+
     const generateCode = () => {
         const tmp = [];
         for (let i = 0; i < slots; i++) {
             tmp.push(colors[Math.floor(Math.random() * colors.length)]);
         }
         setCode(tmp);
-        console.log(tmp);
     };
 
     const colorize = (color: string) => {
@@ -98,11 +104,13 @@ export default function game() {
             } else {
                 let found = false;
                 for (let i = 0; i < slots && !found; i++) {
-                    console.log(alreadySeen);
                     if (i !== j && !alreadySeen.includes(i)) {
                         if (spotsColor[lineSelected][j] === code[i]) {
-                            tmp[lineSelected][1]++;
-                            found = true;
+                            if (spotsColor[lineSelected][i] !== code[i]) {
+                                tmp[lineSelected][1]++;
+                                found = true;
+                            }
+
                             alreadySeen.push(i);
                         }
                     }
@@ -114,76 +122,108 @@ export default function game() {
         }
 
         setLineState(tmp);
+        if (tmp[lineSelected][0] === 4) {
+            setGameStatus('success');
+            setLineSelected(-1);
+        } else if (lineSelected - 1 >= 0) {
+            setLineSelected(() => lineSelected - 1);
+        } else {
+            setGameStatus('fail');
+            setLineSelected(-1);
+        }
     };
 
+    const { t } = useTranslation();
     return (
-        <GameSection>
-            {/* <InfosContainer>
-                {(() => {
-                    const rows = [];
-                    for (let i = 0; i < nbRows; i++) {
-                        const cols = [];
-                        for (let j = 0; j < 3; j++) {
-                            cols.push(<p key={j}>{lineState[i] ? lineState[i][j] : null}</p>);
-                        }
-                        rows.push(<Infos key={i}>{cols}</Infos>);
-                    }
-                    return rows;
-                })()}
-            </InfosContainer> */}
-            <Board>
-                {(() => {
-                    const rows = [];
-
-                    for (let i = 0; i < nbRows; i++) {
-                        const cols = [];
-                        const InfosRow = [];
-                        for (let j = 0; j < 3; j++) {
-                            InfosRow.push(
-                                <InfosText key={j}>
-                                    {lineState[i] ? lineState[i][j] : null}
-                                </InfosText>
-                            );
-                        }
-                        cols.push(<Infos key={-1 - i}>{InfosRow}</Infos>);
-                        for (let j = 0; j < slots; j++) {
-                            cols.push(
-                                <Spot
-                                    key={j}
-                                    color={spotsColor[i] ? spotsColor[i][j] : 'none'}
-                                    onClick={() => openColor(i, j)}
-                                    className={
-                                        i === selected.i && j === selected.j && lineSelected === i
-                                            ? 'selected '
-                                            : ''
-                                    }></Spot>
-                            );
-                        }
-                        cols.push(
-                            <PlayButton
-                                key={slots + 1}
-                                className={lineSelected === i ? 'selected' : ''}
-                                onClick={() => verify()}>
-                                Verify
-                            </PlayButton>
-                        );
+        <DefaultLayout>
+            <GameSection>
+                <Board>
+                    {(() => {
+                        const rows = [];
                         rows.push(
-                            <Row className={lineSelected === i ? 'selected' : ''} key={i}>
-                                {cols}
-                            </Row>
+                            <EndContainer key={-5}>
+                                <EndText
+                                    className={gameStatus === 'playing' ? 'displayed' : ''}
+                                    color={theme.color.orange}>
+                                    {t('playing')} : {lineSelected + 1}
+                                </EndText>
+                                <EndText
+                                    className={gameStatus === 'success' ? 'displayed' : ''}
+                                    color={theme.color.green}>
+                                    {t('success')}
+                                </EndText>
+                                <EndText
+                                    className={gameStatus === 'fail' ? 'displayed' : ''}
+                                    color={theme.color.red}>
+                                    {t('fail')}
+                                </EndText>
+                                {(() => {
+                                    const array = [];
+                                    for (let i = 0; i < slots; i++) {
+                                        array.push(<Code key={i} color={code[i]}></Code>);
+                                    }
+                                    return (
+                                        <CodeContainer
+                                            className={gameStatus !== 'playing' ? 'displayed' : ''}>
+                                            {array}
+                                        </CodeContainer>
+                                    );
+                                })()}
+                            </EndContainer>
                         );
-                    }
-                    return rows;
-                })()}
-                <ColorContainer className={choosing ? 'open' : ''}>
-                    {colors.map((color, i) => (
-                        <ColorButton
-                            key={i}
-                            color={color}
-                            onClick={() => colorize(color)}></ColorButton>
-                    ))}
-                </ColorContainer>
-            </Board>
-        </GameSection>
+
+                        for (let i = 0; i < nbRows; i++) {
+                            const cols = [];
+                            const InfosRow = [];
+                            for (let j = 0; j < 3; j++) {
+                                InfosRow.push(
+                                    <InfosText key={j}>
+                                        {lineState[i] ? lineState[i][j] : null}
+                                    </InfosText>
+                                );
+                            }
+                            cols.push(<Infos key={-1 - i}>{InfosRow}</Infos>);
+                            for (let j = 0; j < slots; j++) {
+                                cols.push(
+                                    <Spot
+                                        key={j}
+                                        color={spotsColor[i] ? spotsColor[i][j] : 'none'}
+                                        onClick={() => openColor(i, j)}
+                                        className={
+                                            i === selected.i &&
+                                            j === selected.j &&
+                                            lineSelected === i
+                                                ? 'selected '
+                                                : ''
+                                        }></Spot>
+                                );
+                            }
+                            cols.push(
+                                <PlayButton
+                                    key={slots + 1}
+                                    className={lineSelected === i ? 'selected' : ''}
+                                    onClick={() => verify()}>
+                                    {t('verify_button')}
+                                </PlayButton>
+                            );
+                            rows.push(
+                                <Row className={lineSelected === i ? 'selected' : ''} key={i}>
+                                    {cols}
+                                </Row>
+                            );
+                        }
+                        return rows;
+                    })()}
+                    <ColorContainer className={choosing ? 'open' : ''}>
+                        {colors.map((color, i) => (
+                            <ColorButton
+                                key={i}
+                                color={color}
+                                onClick={() => colorize(color)}></ColorButton>
+                        ))}
+                    </ColorContainer>
+                </Board>
+            </GameSection>
+        </DefaultLayout>
     );
 }

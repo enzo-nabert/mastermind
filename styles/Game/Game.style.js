@@ -5,14 +5,46 @@ export const GameSection = styled.section`
     width: 100vw;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
 
-export const InfosContainer = styled.aside`
+export const EndContainer = styled.article`
+    width: 100%;
+
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    align-items: center;
+`;
+export const EndText = styled.p.attrs((props) => {})`
+    display: none;
+
+    color: ${(props) => props.color};
+    font-size: 40px;
+
+    &.displayed {
+        display: block;
+    }
+`;
+
+export const CodeContainer = styled.div`
+    margin-bottom: 20px;
+
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    &.displayed {
+        visibility: visible;
+    }
+`;
+
+export const Code = styled.div`
+    padding: 20px;
+    background: ${(props) => (props.color ? props.color : props.theme.color.background)};
+    border-radius: 360px;
 `;
 
 export const Infos = styled.div`
@@ -35,15 +67,24 @@ export const InfosText = styled.p`
     }
 `;
 
-export const PlayContainer = styled.aside``;
-
 export const PlayButton = styled.button`
-    visibility: hidden;
+    padding: 5px 15px;
 
+    color: ${(props) => props.theme.color.green};
+    background: none;
+    border: 2px solid ${(props) => props.theme.color.green};
+    border-radius: 10px;
+
+    visibility: hidden;
     cursor: pointer;
 
     &.selected {
         visibility: visible;
+    }
+
+    &:hover {
+        background: ${(props) => props.theme.color.green};
+        color: ${(props) => props.theme.color.blue};
     }
 `;
 
