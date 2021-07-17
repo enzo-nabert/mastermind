@@ -46,3 +46,12 @@ export const MenuItem = styled.div`
         border: 2px solid ${(props) => props.theme.color.black};
     }
 `;
+
+export const Button = styled.a`
+    padding: 15px;
+    border-radius: 360px;
+    border: 2px solid ${(props) => props.theme.color.black};
+    cursor: pointer;
+    background: ${(props) => props.theme.color.green};
+    align-self: flex-end;
+`;

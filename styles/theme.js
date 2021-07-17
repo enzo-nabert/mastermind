@@ -13,6 +13,7 @@ export const theme = {
         purple: '#9900ff',
         pink: '#ff00ff',
         grey: '#888888',
-        cyan: '#00ffff'
+        cyan: '#00ffff',
+        background: '#fff8a2'
     }
 };
