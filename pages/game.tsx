@@ -22,7 +22,9 @@ import { theme } from 'styles/theme';
 export default function game() {
     const { slots } = useContext(Context);
     const [spotsColor, setSpotsColor] = useState([]);
-    const [lineSelected, setLineSelected] = useState(9);
+
+    const nbRows = slots * 3;
+    const [lineSelected, setLineSelected] = useState(nbRows - 1);
     const [lineState, setLineState] = useState([]);
 
     const [gameStatus, setGameStatus] = useState('playing');
@@ -43,9 +45,7 @@ export default function game() {
     const [selected, setSelected] = useState({ i: null, j: null });
     const [choosing, setChoosing] = useState(false);
 
-    const nbRows = 10;
-
-    useEffect(() => {
+    const setUp = () => {
         //colors
         const tmp = [];
         for (let i = 0; i < nbRows; i++) {
@@ -67,6 +67,12 @@ export default function game() {
         setLineState(temp);
 
         generateCode();
+        setLineSelected(nbRows - 1);
+        setGameStatus('playing');
+    };
+
+    useEffect(() => {
+        setUp();
     }, []);
 
     const [code, setCode] = useState([]);
@@ -162,6 +168,11 @@ export default function game() {
                                     for (let i = 0; i < slots; i++) {
                                         array.push(<Code key={i} color={code[i]}></Code>);
                                     }
+                                    array.push(
+                                        <PlayButton className={'selected'} onClick={() => setUp()}>
+                                            {t('replay')}
+                                        </PlayButton>
+                                    );
                                     return (
                                         <CodeContainer
                                             className={gameStatus !== 'playing' ? 'displayed' : ''}>
