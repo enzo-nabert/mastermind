@@ -128,7 +128,7 @@ export default function game() {
         }
 
         setLineState(tmp);
-        if (tmp[lineSelected][0] === 4) {
+        if (tmp[lineSelected][0] === slots) {
             setGameStatus('success');
             setLineSelected(-1);
         } else if (lineSelected - 1 >= 0) {
