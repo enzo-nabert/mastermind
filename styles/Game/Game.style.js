@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const GameSection = styled.section`
+    padding-top: 60px;
     height: 100vh;
     width: 100vw;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 `;
 
